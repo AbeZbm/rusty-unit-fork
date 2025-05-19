@@ -125,6 +125,7 @@ pub fn sysroot() -> String {
 }
 
 pub fn get_compiler_args(args: &[String]) -> Vec<String> {
+    println!("args of get_compiler_args(): {:#?}", args);
     let have_sys_root = arg_value(args, "--sysroot", |_| true).is_some();
     // Setting RUSTC_WRAPPER causes Cargo to pass 'rustc' as the first argument.
     // We're invoking the compiler programmatically, so we ignore this/
@@ -173,16 +174,26 @@ fn run_rustc() -> Result<(), i32> {
     }
 
     let std_env_args: Vec<String> = std::env::args().collect();
+    println!("std_env_args: {:#?}", std_env_args);
 
     let rustc_args = get_compiler_args(&std_env_args);
+    println!("rustc_args: {:#?}", rustc_args);
 
-    let do_instrument = rustc_get_crate_name(&rustc_args) == RuConfig::env_crate_name();
+    let crate_name = rustc_get_crate_name(&rustc_args);
+    let env_crate_name = RuConfig::env_crate_name();
+    println!(
+        "crate_name: {}, env_crate_name: {}",
+        crate_name, env_crate_name
+    );
+
+    let do_instrument = crate_name == env_crate_name;
 
     pass_to_rustc(&rustc_args, do_instrument);
     return Ok(());
 }
 
 pub fn pass_to_rustc(rustc_args: &[String], instrumentation: bool) {
+    info!("Running pass_to_rustc()");
     let err = if instrumentation {
         // The crate we want to analyze, so throw up the instrumentation
         info!(
@@ -198,7 +209,7 @@ pub fn pass_to_rustc(rustc_args: &[String], instrumentation: bool) {
     };
     //let mut callbacks = CompilerCallbacks::new();
     //let err = rustc_driver::RunCompiler::new(&rustc_args, &mut callbacks).run();
-
+    info!("pass_to_rustc() finish");
     if err.is_err() {
         eprintln!("Error while compiling dependency");
         exit(-1);
