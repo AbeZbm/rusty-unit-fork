@@ -193,12 +193,19 @@ fn run_rustc() -> Result<(), i32> {
     }
 
     let mut std_env_args: Vec<String> = std::env::args().collect();
-    // println!("{:#?}", std_env_args);
+    println!("std_env_args: {:#?}", std_env_args);
 
     let rustc_args = get_compiler_args(&std_env_args);
-    // println!("{:#?}", rustc_args);
+    println!("rustc_args: {:#?}", rustc_args);
 
-    let do_instrument = rustc_get_crate_name(&rustc_args) == RuConfig::env_crate_name();
+    let crate_name = rustc_get_crate_name(&rustc_args);
+    let env_crate_name = RuConfig::env_crate_name();
+    println!(
+        "crate_name: {}, env_crate_name: {}",
+        crate_name, env_crate_name
+    );
+
+    let do_instrument = crate_name == env_crate_name;
 
     pass_to_rustc(&rustc_args, do_instrument);
     return Ok(());
