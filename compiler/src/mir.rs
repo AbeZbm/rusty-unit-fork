@@ -4,7 +4,7 @@ use crate::data_structures::{original_cfg, truncated_cfg};
 use crate::mir::ValueDef::Var;
 use crate::monitor::{BinaryOp, UnaryOp};
 use crate::types::{ty_name, RuConstVal, RuPrim, RuTy};
-use crate::util::{ty_to_name, ty_to_t, tys_to_t};
+use crate::utils::{ty_to_name, ty_to_t, tys_to_t};
 #[cfg(feature = "analysis")]
 use crate::writer::{MirObject, MirObjectBuilder, MirWriter};
 use crate::{RuConfig, DOT_DIR, INSTRUMENTED_MIR_LOG_NAME, LOG_DIR};
@@ -50,11 +50,19 @@ pub const CUSTOM_OPT_MIR: for<'tcx> fn(_: TyCtxt<'tcx>, _: DefId) -> &'tcx Body<
         let crate_name = tcx.crate_name(def.krate);
         let hir_id = tcx.hir().local_def_id_to_hir_id(def.expect_local());
 
+        // let file_path = span_to_path(&tcx.def_span(def), &tcx);
+        // if file_path.is_none() {
+        //     return tcx.arena.alloc(body);
+        // }
+
+        info!("MIR: Scanning file {:?}", tcx.def_span(def));
+
         if crate_name.as_str() != RuConfig::env_crate_name()
             || is_rusty_monitor(hir_id, &tcx)
             || !allowed_item(def)
         {
             // Don't instrument extern crates
+            info!("Don't instrument extern crates");
             return tcx.arena.alloc(body);
         }
 
@@ -1592,6 +1600,7 @@ fn find_trace_branch_hit_fn(tcx: &TyCtxt<'_>) -> DefId {
 
 fn is_rusty_monitor(hir_id: HirId, tcx: &TyCtxt<'_>) -> bool {
     let name = format!("{:?}", hir_id);
+    // info!("name: {}", name);
     name.contains("rusty_monitor")
 }
 

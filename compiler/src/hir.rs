@@ -4,7 +4,7 @@ use crate::types::{
     def_id_name, FieldAccessItem, RuCallable, RuEnum, RuEnumInit, RuEnumVariant, RuFunction,
     RuMethod, RuParam, RuStaticMethod, RuStruct, RuStructInit, RuTrait, RuTy,
 };
-use crate::util::{
+use crate::utils::{
     def_id_to_enum, def_id_to_t, fn_ret_ty_to_t, generics_to_ts, impl_to_def_id, is_local,
     item_to_name, node_to_name, path_to_name, res_to_name, span_to_path, ty_to_name, ty_to_param,
     ty_to_t,
@@ -44,7 +44,7 @@ pub fn hir_analysis(tcx: TyCtxt<'_>) {
             continue;
         }
 
-        //info!("HIR: Scanning file {:?}", file_path.as_ref());
+        info!("HIR: Scanning file {:?}", file_path.as_ref());
         if let Some(path) = file_path.as_ref() {
             if path.ends_with("rusty_monitor.rs") {
                 continue;

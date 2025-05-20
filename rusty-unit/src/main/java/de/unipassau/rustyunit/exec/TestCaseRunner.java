@@ -160,13 +160,32 @@ public class TestCaseRunner implements ChromosomeExecutor<TestCase> {
       throws IOException, InterruptedException, TestCaseDoesNotCompileException {
     var timer = new Timer();
     timer.start();
+    // var processBuilderInstrumentation = new ProcessBuilder("cargo",
+    // "instrumentation",
+    // "--features", features)
+    // .directory(directory)
+    // .redirectError(errorPath.toFile());
+
+    // var envInstrumentation = processBuilderInstrumentation.environment();
+    // // env.put("RUSTC_WRAPPER", instrumenter.toString());
+    // envInstrumentation.put("RUST_LOG", "info");
+    // envInstrumentation.put("RU_STAGE", "instrumentation");
+    // envInstrumentation.put("RU_CRATE_NAME", crateName);
+    // envInstrumentation.put("RU_CRATE_ROOT", directory.toString());
+    // envInstrumentation.put("RU_RUN", String.valueOf(run));
+    // var processInstrumentation = processBuilderInstrumentation.start();
+    // var outputInstrumentation =
+    // IOUtils.toString(processInstrumentation.getInputStream(),
+    // Charset.defaultCharset());
+    // var statusCodeInstrumentation = processInstrumentation.waitFor();
+
     var processBuilder = new ProcessBuilder("cargo", "test",
         Constants.TEST_MOD_NAME, "--features", features)
         .directory(directory)
         .redirectError(errorPath.toFile());
 
     var env = processBuilder.environment();
-    env.put("RUSTC_WRAPPER", instrumenter.toString());
+    env.put("RUSTC_WRAPPER", instrumenter.toString()); // comment
     env.put("RUST_LOG", "info");
     env.put("RU_STAGE", "instrumentation");
     env.put("RU_CRATE_NAME", crateName);

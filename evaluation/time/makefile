@@ -101,7 +101,7 @@ seeded-dynamosa : analysis/hir/hir.json
 	--seed-constant-pool \
 	--parse-traits
 
-dynamosa : analysis/hir/hir.json
+dynamosa :
 	java -jar $(JAR) --algo dynamosa \
 	-c $(CRATE_ROOT) \
 	-m $(MAIN_FILE) \

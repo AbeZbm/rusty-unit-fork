@@ -174,7 +174,7 @@ fn run_rustc() -> Result<(), i32> {
     }
 
     let mut std_env_args: Vec<String> = std::env::args().collect();
-    // let rustflags = std::env::var("RUSTFLAGS");
+    let rustflags = std::env::var("RUSTFLAGS");
     // eprintln!("rustflags: {:?}", rustflags);
     // eprintln!("std_env_args: {:#?}", std_env_args);
     // std_env_args.remove(5);
@@ -220,14 +220,14 @@ pub fn pass_to_rustc(rustc_args: &[String], instrumentation: bool) {
     }
 }
 
-fn main() {
-    // let mut std_env_args: Vec<String> = std::env::args().collect();
-    // let rustflags = std::env::var("RUSTFLAGS");
-    // eprintln!("rustflags: {:?}", rustflags);
-    // eprintln!("std_env_args: {:#?}", std_env_args);
-    // Initialize the logger
-    env_logger::init();
+// fn main() {
+//     // let mut std_env_args: Vec<String> = std::env::args().collect();
+//     // let rustflags = std::env::var("RUSTFLAGS");
+//     // eprintln!("rustflags: {:?}", rustflags);
+//     // eprintln!("std_env_args: {:#?}", std_env_args);
+//     // Initialize the logger
+//     env_logger::init();
 
-    exit(run_rustc().err().unwrap_or(0))
-    // exit(0)
-}
+//     exit(run_rustc().err().unwrap_or(0))
+//     // exit(0)
+// }

@@ -1,4 +1,4 @@
-use crate::util::is_local;
+use crate::utils::is_local;
 use log::{error, info};
 use rustc_ast::{FloatTy, IntTy, UintTy};
 use rustc_hir::def::CtorKind;

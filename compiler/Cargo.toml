@@ -12,6 +12,25 @@ name = "analysis"
 required-features = ["analysis", "file_writer"]
 path = "src/main.rs"
 
+# [[bin]]
+# name = "instrumentation"
+# required-features = ["instrumentation"]
+# path = "src/bin/rusty.rs"
+
+# [[bin]]
+# name = "cargo-instrumentation"
+# required-features = ["instrumentation"]
+# path = "src/bin/cargo-rusty.rs"
+
+# [[bin]]
+# name = "analysis"
+# required-features = ["analysis", "file_writer"]
+# path = "src/bin/rusty.rs"
+
+# [[bin]]
+# name = "cargo-rusty"
+# required-features = ["analysis", "file_writer"]
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [features]
@@ -32,6 +51,7 @@ toml = "0.5.8"
 which = "4.2.4"
 dircpy-stable = "0.3.5"
 derive_builder = "0.10.2"
+# cargo_metadata = "0.11.4"
 
 [dependencies.redis]
 version = "0.23.1"
